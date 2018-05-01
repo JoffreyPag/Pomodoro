@@ -22,7 +22,7 @@ public class UmidadeDAO {
     }
     
     public boolean inserir(Umidade umidade){
-        String sql = "INSERT INTO umidade(valor) VALUES (?)";
+        String sql = "INSERT INTO umidade(valor, data_registro, hora_registro) VALUES (?, CURRENT_DATE, CURRENT_TIME)";
         PreparedStatement pst = Conexao.getPreparedStatement(sql);
         try {
             pst.setString(1, ""+umidade.getValor());
@@ -60,7 +60,8 @@ public class UmidadeDAO {
                 Umidade u = new Umidade();
                 u.setId(res.getInt("id"));
                 u.setValor(Double.parseDouble(res.getString("valor")));
-                
+                u.setHora(""+res.getTime("hora_registro"));
+                u.setData(""+res.getDate("data_registro"));
                 retorno.add(u);
             }
         } catch (Exception e) {
